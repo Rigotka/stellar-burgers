@@ -1,3 +1,8 @@
+.wrap {
+  width: 640px;
+  margin: auto;
+}
+
 .content {
   display: flex;
   flex-direction: column;
