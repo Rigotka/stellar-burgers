@@ -64,13 +64,17 @@ export type TFeedState = {
 export type TUserState = {
   user: TUser | null;
   isAuthChecked: boolean;
+  isLoading: boolean;
+  error: SerializedError | null;
+};
+export type TOrdersHistoryState = {
+  orders: TOrder[];
+  isLoading: boolean;
   error: SerializedError | null;
 };
 
-export type TOrdersState = {
-  orders: TOrder[];
+export type TOrderCreateState = {
   orderModalData: TOrder | null;
-  isLoading: boolean;
   orderRequest: boolean;
   error: SerializedError | null;
 };

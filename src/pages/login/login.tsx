@@ -11,7 +11,7 @@ export const Login = (): React.JSX.Element => {
 
   const handleSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    void dispatch(login({ email, password }));
   };
 
   return (

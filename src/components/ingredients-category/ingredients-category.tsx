@@ -1,10 +1,10 @@
+import { getConstructorSelector } from '@/services/slices/burgerConstructorSlice';
+import { useSelector } from '@/services/store';
 import { IngredientsCategoryUI } from '@ui';
 import { useMemo } from 'react';
 
 import type { TIngredientsCategoryProps } from './type';
 import type { TConstructorState, TIngredient } from '@utils-types';
-import { useSelector } from '@/services/store';
-import { getConstructorSelector } from '@/services/slices/burgerConstructorSlice';
 
 export const IngredientsCategory = ({
   title,

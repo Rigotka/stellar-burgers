@@ -1,11 +1,11 @@
-import { getUserSelector, register } from '@/services/slices/userSlice';
+import { getErrorSelector, register } from '@/services/slices/userSlice';
 import { useDispatch, useSelector } from '@/services/store';
 import { RegisterUI } from '@ui-pages';
 import { type SyntheticEvent, useState } from 'react';
 
 export const Register = (): React.JSX.Element => {
   const dispatch = useDispatch();
-  const error = useSelector(getUserSelector).error;
+  const error = useSelector(getErrorSelector);
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ export const Register = (): React.JSX.Element => {
 
   const handleSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
-    dispatch(register({ email, password, name: userName }));
+    void dispatch(register({ email, password, name: userName }));
   };
 
   return (

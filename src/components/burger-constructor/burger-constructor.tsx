@@ -1,28 +1,25 @@
-import { BurgerConstructorUI } from '@ui';
-import { useMemo } from 'react';
-
-import type { TConstructorIngredient, TConstructorState } from '@utils-types';
-import { useDispatch, useSelector } from '@/services/store';
-import {
-  getConstructorSelector,
-  resetConstructor,
-} from '@/services/slices/burgerConstructorSlice';
+import { getConstructorSelector } from '@/services/slices/burgerConstructorSlice';
 import {
   createOrder,
-  getOrdersSelector,
+  getOrderCreateSelector,
   resetOrder,
-} from '@/services/slices/ordersSlise';
+} from '@/services/slices/orderCreateSlice';
 import { getUserSelector } from '@/services/slices/userSlice';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '@/services/store';
+import { BurgerConstructorUI } from '@ui';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import type { TConstructorIngredient, TConstructorState } from '@utils-types';
 
 export const BurgerConstructor = (): React.JSX.Element | null => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const constructorItems: TConstructorState = useSelector(getConstructorSelector);
-  const user = useSelector(getUserSelector).user;
+  const user = useSelector(getUserSelector);
 
-  const { orderRequest, orderModalData } = useSelector(getOrdersSelector);
+  const { orderRequest, orderModalData } = useSelector(getOrderCreateSelector);
 
   const onOrderClick = (): void => {
     const { bun, ingredients } = constructorItems;
@@ -30,19 +27,18 @@ export const BurgerConstructor = (): React.JSX.Element | null => {
     if (!bun || orderRequest) return;
 
     if (!user) {
-      navigate('/login', { replace: true });
+      void navigate('/login', { replace: true });
       return;
     }
 
     const ingredientsIds = ingredients.map((item) => item._id);
     const orderIds = [bun._id, ...ingredientsIds, bun._id];
 
-    dispatch(createOrder(orderIds));
+    void dispatch(createOrder(orderIds));
   };
 
   const closeOrderModal = (): void => {
-    dispatch(resetOrder());
-    dispatch(resetConstructor());
+    void dispatch(resetOrder());
   };
 
   const price = useMemo(

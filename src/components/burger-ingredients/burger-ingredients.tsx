@@ -1,10 +1,10 @@
+import { getIngredientsSelector } from '@/services/slices/ingredientSlice';
+import { useSelector } from '@/services/store';
 import { BurgerIngredientsUI } from '@ui';
 import { useMemo, useState, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import type { TIngredient, TTabMode } from '@utils-types';
-import { useSelector } from '@/services/store';
-import { getIngredientsSelector } from '@/services/slices/ingredientSlice';
 
 export const BurgerIngredients = (): React.JSX.Element => {
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
@@ -12,7 +12,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
   const titleMainRef = useRef<HTMLHeadingElement>(null);
   const titleSaucesRef = useRef<HTMLHeadingElement>(null);
 
-  const ingredients: TIngredient[] = useSelector(getIngredientsSelector).ingredients;
+  const ingredients: TIngredient[] = useSelector(getIngredientsSelector);
 
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0,

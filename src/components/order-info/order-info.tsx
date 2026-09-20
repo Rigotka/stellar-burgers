@@ -1,19 +1,28 @@
+import { getIngredientsSelector } from '@/services/slices/ingredientSlice';
+import {
+  getOrderByNumber,
+  getOrderInfoSelector,
+} from '@/services/slices/orderInfoSlice';
+import { useDispatch, useSelector } from '@/services/store';
 import { Preloader, OrderInfoUI } from '@ui';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 
 import type { TIngredient } from '@utils-types';
-import { useSelector } from 'react-redux';
-import { getFeedSelector } from '@/services/slices/feedSlice';
-import { useParams } from 'react-router-dom';
-import { getIngredientsSelector } from '@/services/slices/ingredientSlice';
 
 export const OrderInfo = (): React.JSX.Element => {
-  const ingredients: TIngredient[] = useSelector(getIngredientsSelector).ingredients;
+  const dispatch = useDispatch();
 
-  const orderSelectedId: string = useParams().number?.toString() ?? '';
-  const orderData = useSelector(getFeedSelector).orders.find(
-    (x) => x.number === +orderSelectedId
-  );
+  const ingredients: TIngredient[] = useSelector(getIngredientsSelector);
+  const orderSelectedNumber: string = useParams().number ?? '';
+
+  const orderData = useSelector(getOrderInfoSelector);
+
+  useEffect(() => {
+    if (orderSelectedNumber) {
+      void dispatch(getOrderByNumber(+orderSelectedNumber));
+    }
+  }, [dispatch, orderSelectedNumber]);
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;

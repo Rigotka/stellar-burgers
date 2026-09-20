@@ -1,9 +1,9 @@
+import { changeOrder, removeIngredient } from '@/services/slices/burgerConstructorSlice';
+import { useDispatch } from '@/services/store';
 import { BurgerConstructorElementUI } from '@ui';
 import { memo } from 'react';
 
 import type { BurgerConstructorElementProps } from './type';
-import { useDispatch } from '@/services/store';
-import { changeOrder, removeIngredient } from '@/services/slices/burgerConstructorSlice';
 
 export const BurgerConstructorElement = memo(function BurgerConstructorElement({
   ingredient,
