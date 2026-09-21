@@ -24,6 +24,8 @@ import { ProtectedRoute } from '../protected-route';
 
 import type { AppContentProps } from './type';
 
+import '../../index.css';
+
 import styles from './app.module.css';
 
 const App = (): React.JSX.Element => {
