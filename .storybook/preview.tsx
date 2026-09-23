@@ -1,14 +1,15 @@
-import React from 'react';
-import type { Preview } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { appTheme } from './theme';
+
+import type { Preview } from '@storybook/react';
 
 // Same global styling the app gets: the design-system package injects the
 // CSS custom properties, fonts and utility classes (ml-2, p-4, text_type_*),
 // and index.css resets the body margin. Without these, stories that happen
 // not to import the package render on a white background in the wrong font.
 import '@krgaa/react-developer-burger-ui-components';
+
 import '../src/index.css';
 
 const preview: Preview = {
@@ -16,7 +17,7 @@ const preview: Preview = {
     // Docs pages default to a light surface, which makes the app's light text
     // unreadable. Render them with the app's own palette instead.
     docs: {
-      theme: appTheme
+      theme: appTheme,
     },
 
     controls: {
