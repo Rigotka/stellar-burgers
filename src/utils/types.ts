@@ -78,3 +78,12 @@ export type TOrderCreateState = {
   orderRequest: boolean;
   error: SerializedError | null;
 };
+
+export type TServerResponse<T = unknown> = {
+  success: boolean;
+} & T;
+
+export type TNewOrderResponse = TServerResponse<{
+  order: TOrder;
+  name: string;
+}>;
