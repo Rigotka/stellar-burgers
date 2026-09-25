@@ -1,15 +1,17 @@
 import { setCookie, getCookie } from './cookie';
 
-import type { TIngredient, TOrder, TUser } from './types';
+import type {
+  TIngredient,
+  TNewOrderResponse,
+  TOrder,
+  TServerResponse,
+  TUser,
+} from './types';
 
 const URL = process.env.BURGER_API_URL;
 
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(toApiError(err)));
-
-type TServerResponse<T = unknown> = {
-  success: boolean;
-} & T;
 
 /**
  * The API signals failure with a JSON payload rather than an HTTP error, so the
@@ -114,11 +116,6 @@ export const getOrdersApi = (): Promise<TOrder[]> =>
     if (data?.success) return data.orders;
     return Promise.reject(toApiError(data));
   });
-
-type TNewOrderResponse = TServerResponse<{
-  order: TOrder;
-  name: string;
-}>;
 
 export const orderBurgerApi = (data: string[]): Promise<TNewOrderResponse> =>
   fetchWithRefresh<TNewOrderResponse>(`${URL}/orders`, {
