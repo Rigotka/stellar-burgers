@@ -1,6 +1,8 @@
 import { getIngredientsApi } from '@/utils/burger-api';
 import { expect, test, describe, jest } from '@jest/globals';
+
 import store from '@services/store';
+
 import {
   getIngredients,
   getIngredientsSelector,
@@ -8,7 +10,8 @@ import {
   ingredientsSlice,
   initialState,
 } from '../ingredientSlice';
-import { TIngredient, TIngredientsState } from '@/utils/types';
+
+import type { TIngredient, TIngredientsState } from '@/utils/types';
 
 jest.mock('@/utils/burger-api', () => ({
   getIngredientsApi: jest.fn(),
@@ -47,15 +50,19 @@ const ingredients: TIngredient[] = [
   },
 ];
 
-const newState = (state: TIngredientsState) => ({
+const newState = (state: TIngredientsState): { ingredients: TIngredientsState } => ({
   ingredients: { ...state },
 });
 
 describe('async actions', () => {
-  test('getIngredients pending', async () => {
-    mockedGetIngredientsApi.mockReturnValue(new Promise(() => {}));
+  test('getIngredients pending', () => {
+    mockedGetIngredientsApi.mockReturnValue(
+      new Promise(() => {
+        // never loading
+      })
+    );
 
-    store.dispatch(getIngredients());
+    void store.dispatch(getIngredients());
 
     const state = store.getState();
     expect(state.ingredients.ingredients).toStrictEqual([]);

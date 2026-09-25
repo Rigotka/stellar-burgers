@@ -1,4 +1,5 @@
-import { TIngredient } from '@/utils/types';
+import { expect, test, describe } from '@jest/globals';
+
 import {
   addIngredient,
   changeOrder,
@@ -6,9 +7,10 @@ import {
   getConstructorSelector,
   initialState,
   removeIngredient,
+  resetConstructor,
 } from '../burgerConstructorSlice';
 
-import { expect, test, describe } from '@jest/globals';
+import type { TIngredient } from '@/utils/types';
 
 const bun: TIngredient = {
   _id: 'bun_1',
@@ -157,6 +159,11 @@ describe('actions', () => {
 
     expect(state.ingredients).toMatchObject(ingredients);
     expect(state.ingredients).toHaveLength(3);
+
+    state = constructorSlice.reducer(state, resetConstructor());
+
+    expect(state.ingredients).toMatchObject([]);
+    expect(state.bun).toBeNull();
   });
 
   test('getIngredientsStateSelector', () => {
@@ -165,11 +172,14 @@ describe('actions', () => {
     state = constructorSlice.reducer(state, addIngredient(ingredients[2]));
     state = constructorSlice.reducer(state, addIngredient(bun));
 
-    expect(getConstructorSelector({ burgerConstructor: state }));
-
     const result = getConstructorSelector({ burgerConstructor: state });
     expect(result.bun).toMatchObject(bun);
     expect(result.ingredients).toHaveLength(3);
     expect(result.ingredients).toMatchObject(ingredients);
+  });
+
+  test('unknown action', () => {
+    const state = constructorSlice.reducer(undefined, { type: 'UNKNOWN' });
+    expect(state).toEqual(initialState);
   });
 });
